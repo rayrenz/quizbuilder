@@ -1,0 +1,7 @@
+<ul>
+{% for session in latest_quizzes %}
+  <li>
+    <a href="{{ session.get_absolute_url }}">{{ session.quiz.title }}</a>
+  </li>
+{% endfor %}
+</ul>

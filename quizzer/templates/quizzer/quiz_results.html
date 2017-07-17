@@ -1,0 +1,42 @@
+{% extends 'quizzer/base.html' %}
+
+{% load quizzer_templates %}
+
+{% block content %}
+
+<div class="panel panel-primary">
+  <header class="panel-heading">
+    <h1>{{ session.quiz.title }}</h1>
+  {% load tz %}
+    <p>Score: {{ session.score }}</p>
+  </header>
+  <ol>
+  {% for question in session.quiz.question_set.all %}
+    <li>
+      {{ question }}
+      <ul>
+      {% for choice in question.choice_set.all %}
+        <li>
+          {{ choice}}
+          {% if choice.is_correct %}
+            &emsp;<span class="glyphicon glyphicon-ok"></span>
+          {% endif %}
+          {% is_answered session.id choice.id as correct %}
+          {% if correct %}
+            &emsp;<span class="glyphicon glyphicon-hand-left"></span>
+          {% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+    </li>
+  {% endfor %}
+    <p>
+    <li style="list-style-type: none">
+      <span class="glyphicon glyphicon-ok"></span> - indicates correct choices<br>
+      <span class="glyphicon glyphicon-hand-left"></span> - indicates your answers<br>
+    </li>
+    </p>
+  </ol>
+
+</div>
+{% endblock %}

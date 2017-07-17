@@ -1,0 +1,43 @@
+{% extends 'quizzer/base.html' %}
+
+{% load quizzer_templates %}
+
+{% block content %}
+
+<div class="col-sm-8">
+
+  {% for quiz in quizzes %}
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3>{{ quiz.title }}</h3>
+        {% load tz %}
+        {% timezone 'Asia/Taipei' %}
+        <h5>created: {{ quiz.created }} &emsp;{% if quiz.expiration != None %} expires: {{ quiz.expiration }}{% endif %}</h5>
+        {% endtimezone %}
+      </div>
+      <div class="panel-body">
+        Quiz Length: {{ quiz.question_set.count }}
+        <a href="{% url 'quizzer:quiz_view' quiz.id %}">
+          <button class="btn btn-primary" style="float: right">Start Quiz</button>
+        </a>
+      </div>
+    </div>
+
+  {% endfor %}
+  {% include 'quizzer/pagination.html' with page=quizzes %}
+
+</div>
+
+<div class="col-sm-4">
+  <aside class="panel panel-default">
+    <header class="panel-heading">
+      <h4>My Recent Quizzes</h4>
+    </header>
+    <section class="panel-body">
+        {% recent_quizzes request.user.id %}
+    </section>
+  </aside>
+</div>
+
+
+{% endblock %}

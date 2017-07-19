@@ -1,8 +1,4 @@
-{% extends 'quizzer/base.html' %}
-
 {% load quizzer_templates %}
-
-{% block content %}
 
 <div class="col-sm-8">
 
@@ -17,7 +13,7 @@
       </div>
       <div class="panel-body">
         Quiz Length: {{ quiz.question_set.count }}
-        <a href="{% url 'quizzer:quiz_view' quiz.id %}">
+        <a href="#/quiz/{{ quiz.id }}">
           <button class="btn btn-primary" style="float: right">Start Quiz</button>
         </a>
       </div>
@@ -38,6 +34,3 @@
     </section>
   </aside>
 </div>
-
-
-{% endblock %}

@@ -1,0 +1,16 @@
+body, html {
+   overflow: hidden;
+   background-color: #ffd39c;
+}
+
+#page-header {
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
+}
+
+#main {
+    margin-top: 80px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

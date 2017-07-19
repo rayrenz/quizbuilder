@@ -1,23 +1,16 @@
-{% extends 'quizzer/base.html' %}
-
-{% block content %}
-
-<div class="panel panel-primary">
+<div class="panel panel-primary" style="margin: 50px;">
   <header class="panel-heading">
     <h1>{{ quiz.title }}</h1>
-  {% load tz %}
-  {% timezone 'Asia/Taipei' %}
-    <p>Started: {{ start }}</p>
-  {% endtimezone %}
   </header>
-  <form method="post">
+  {% if quiz.question_set.all %}
+  <form method="post" ng-submit="submit()">
     {% csrf_token %}
     <ol>
     {% for question in quiz.question_set.all %}
       <li class="list-group">
         {{ question.text }}<br>
         {% for choice in question.choice_set.all %}
-          <input type="radio" name="{{ question.id }}" id="choice{{ forloop.counter}}" value="{{ choice.id }}">
+          <input type="radio" ng-model="question{{ question.id }}" name="{{ question.id }}" id="choice{{ forloop.counter}}" value="{{ choice.id }}">
           <label for="choice{{ forloop.counter }}">{{ choice.text }}</label><br>
         {% endfor %}
       </li>
@@ -27,6 +20,7 @@
     </ol>
 
   </form>
+  {% else %}
+    <p>No questions are available</p>
+  {% endif %}
 </div>
-
-{% endblock %}

@@ -1,7 +1,7 @@
 <ul>
 {% for session in latest_quizzes %}
   <li>
-    <a href="{{ session.get_absolute_url }}">{{ session.quiz.title }}</a>
+    <a href="{{ session.get_absolute_url }}">{{ session.quiz.title }} on {{ session.date_taken }}</a>
   </li>
 {% endfor %}
 </ul>

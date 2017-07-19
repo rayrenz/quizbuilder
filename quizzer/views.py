@@ -3,14 +3,38 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth import logout, login, authenticate, models
+from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+from rest_framework import generics
+from rest_framework.views import APIView
 
 from .models import Quiz, QuizSession
 from .forms import LoginForm
+from .serializers import QuizSerializer, UserSerializer
 
 
-def home(request):
+class QuizListView(generics.ListAPIView):
+    queryset = Quiz.published.all()
+    serializer_class = QuizSerializer
+
+
+class QuizView(generics.ListAPIView):
+    serializer_class = QuizSerializer
+
+    def get_queryset(self):
+        quiz_id = self.kwargs['quiz_id']
+        return Quiz.objects.filter(id=quiz_id)[:1]
+
+
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+def quiz_list(request):
     if request.user.is_authenticated():
         quizzes = Quiz.published.exclude(expiration__lte=timezone.now())
 
@@ -26,8 +50,13 @@ def home(request):
             # if page is out of range deliver last page of results
             quizzes = paginator.page(paginator.num_pages)
 
-        return render(request, 'quizzer/home.html', {'quizzes': quizzes, 'page': page})
-    return redirect('quizzer:login')
+        return render(request, 'quizzer/quiz_list.html', {'page': page, 'quizzes': quizzes})
+
+    return redirect('quizzer:home')
+
+
+def home(request):
+    return render(request, 'index.html')
 
 
 def login_view(request):
@@ -50,7 +79,7 @@ def login_view(request):
 def quiz_view(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.method == 'POST':
-        session = QuizSession(quiz=quiz, user=request.user, date_taken=timezone.now().date())
+        session = QuizSession(quiz=quiz, user=request.user, date_taken=timezone.now())
         correct = 0
         wrong = 0
         answers = {}
@@ -65,8 +94,7 @@ def quiz_view(request, quiz_id):
         session.score = correct
         session.save()
         return HttpResponseRedirect(reverse('quizzer:session_results', kwargs={'quiz_id': quiz.id,'session_id': session.id}))
-    request.session['start'] = str(timezone.now())
-    return render(request, 'quizzer/quiz_form.html', {'quiz': quiz, 'start': timezone.now()})
+    return render(request, 'quizzer/quizform.html', {'quiz': quiz, 'start': timezone.now()})
 
 
 def session_results(request, quiz_id, session_id):

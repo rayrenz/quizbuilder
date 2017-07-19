@@ -1,0 +1,23 @@
+<div ng-controller="QuizFormController" class="panel panel-primary" style="margin: 50px;" ng-repeat="quiz in content">
+  <div class="panel-heading">
+    <h1>{{ quiz.title }}</h1>
+  </div>
+  <div class="panel-body">
+  <span ng-if="quiz.question_set">
+    <form ng-submit="submit()" method="post">
+      <ol>
+        <li ng-repeat="question in quiz.question_set">
+          {{ question.text }}<br>
+            <span ng-repeat="(key, value) in question.choice_set">
+              <input type="radio" id="{{'choice' + value.id }}" name="{{ 'question' + question.id }}" ng-model="question">
+              <label for="{{'choice' + value.id }}">{{ value.text }}</label>
+              <br>
+            </span>
+        </li>
+        <input type="submit" value="Submit">
+      </ol>
+    </form>
+  </span>
+  <p ng-if="quiz.question_set == 0">This Quiz doesn't have questions yet.</p>
+  </div>
+</div>

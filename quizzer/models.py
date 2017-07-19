@@ -60,4 +60,4 @@ class QuizSession(models.Model):
         return 'Quiz ' + self.quiz.title + ' answered by ' + self.user.username
 
     def get_absolute_url(self):
-        return reverse('quizzer:session_results', args=[self.quiz.id, self.id])
+        return '#/quiz/' + str(self.quiz.id) + '/' + str(self.id) + '/results'

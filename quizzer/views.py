@@ -72,7 +72,8 @@ def quiz_view(request, quiz_id):
         session.answers = answers
         session.score = correct
         session.save()
-        return HttpResponseRedirect(reverse('quizzer:session_results', kwargs={'quiz_id': quiz.id,'session_id': session.id}))
+        return HttpResponseRedirect(reverse('quizzer:session_results', kwargs={'quiz_id': quiz.id,
+            'session_id': session.id}))
     return render(request, 'quizzer/quizform.html', {'quiz': quiz, 'start': timezone.now()})
 
 
@@ -89,7 +90,7 @@ def session_results(request, quiz_id, session_id):
 
 def logout_view(request):
     logout(request)
-    return redirect('quizzer:home')
+    return HttpResponseRedirect(reverse('quizzer:home'))
 
 
 def register(request):

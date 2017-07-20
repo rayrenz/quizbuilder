@@ -69,7 +69,7 @@ quizApp.controller('LogoutController', function($scope, $http, $location){
         url: '/logout'
 
     }).then(function successCallback(response){
-            $location.path('/');
+            window.location = '/';
         }, function errorCallback(response){
             console.error(response.statusText);
         });
@@ -90,18 +90,21 @@ quizApp.controller('QuizFormController', function($scope, $sce, $http, $routePar
 });
 
 quizApp.controller('LoginController', function($scope, $http, $sce){
-    var vm = this;
+  var vm = this;
 
-    $http({
-        method: 'GET',
-        url: '/login'
+  $http({
+    method: 'GET',
+    url: '/login'
 
-    }).then(function successCallback(response){
-            vm.content = $sce.trustAsHtml(response.data);
-        }, function errorCallback(response){
-            console.error(response.statusText);
-        });
+  }).then(function successCallback(response){
+      vm.content = $sce.trustAsHtml(response.data);
+    }, function errorCallback(response){
+      console.error(response.statusText);
+    });
 
+  vm.submit = function(){
+    alert(vm.username + vm.password + '!');
+  }
 
 });
 

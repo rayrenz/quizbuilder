@@ -3,7 +3,7 @@
     <h1>{{ quiz.title }}</h1>
   </header>
   {% if quiz.question_set.all %}
-  <form method="post" ng-submit="submit()">
+  <form method="post" action="{% url 'quizzer:quiz_view' quiz.id %}">
     {% csrf_token %}
     <ol>
     {% for question in quiz.question_set.all %}

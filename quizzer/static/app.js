@@ -6,48 +6,58 @@ quizApp.config(function($routeProvider){
             templateUrl: '/static/templates/welcome.html',
         })
         .when('/quizzes', {
-            templateUrl: '/static/templates/quiz.html',
-            controller: 'QuizController'
+            templateUrl: '/static/templates/template.html',
+            controller: 'QuizController',
+            controllerAs: 'vm'
         })
         .when('/quiz/:quizid', {
-            templateUrl: '/static/templates/quizform.html',
-            controller: 'QuizFormController'
+            templateUrl: '/static/templates/template.html',
+            controller: 'QuizFormController',
+            controllerAs: 'vm'
         })
         .when('/quiz/:quizid/:sessionid/results', {
-            templateUrl: '/static/templates/resultsform.html',
-            controller: 'ResultsFormController'
+            templateUrl: '/static/templates/template.html',
+            controller: 'ResultsFormController',
+            controllerAs: 'vm'
         })
         .when('/logout', {
-            templateUrl: '/static/templates/logout.html',
-            controller: 'LogoutController'
+            templateUrl: '/static/templates/template.html',
+            controller: 'LogoutController',
+            controllerAs: 'vm'
         })
         .when('/register', {
-            templateUrl: '/static/templates/register.html',
-            controller: 'RegisterController'
+            templateUrl: '/static/templates/template.html',
+            controller: 'RegisterController',
+            controllerAs: 'vm'
         })
         .when('/login', {
-            templateUrl: '/static/templates/loginpage.html',
-            controller: 'LoginController'
+            templateUrl: '/static/templates/template.html',
+            controller: 'LoginController',
+            controllerAs: 'vm'
         });
 });
 
 quizApp.controller('ResultsFormController', function($scope, $http, $sce, $routeParams){
+    var vm = this;
+
     $http({
         method: 'GET',
         url: '/quiz/' + $routeParams.quizid + '/' + $routeParams.sessionid + '/results'
     }).then(function successCallback(response){
-            $scope.content = $sce.trustAsHtml(response.data);
+            vm.content = $sce.trustAsHtml(response.data);
         }, function errorCallback(response){
             console.error(response.statusText);
         });
 });
 
 quizApp.controller('QuizController', function($scope, $http, $sce){
+    var vm = this;
+
     $http({
         method: 'GET',
         url: '/quizzes'
     }).then(function successCallback(response){
-            $scope.content = $sce.trustAsHtml(response.data);
+            vm.content = $sce.trustAsHtml(response.data);
         }, function errorCallback(response){
             console.error(response.statusText);
         });
@@ -65,40 +75,29 @@ quizApp.controller('LogoutController', function($scope, $http, $location){
         });
 });
 
-quizApp.controller('QuizFormController', function($scope, $http, $routeParams){
+quizApp.controller('QuizFormController', function($scope, $sce, $http, $routeParams){
+    var vm = this;
+
     $http({
         method: 'GET',
-        url: '/api/quiz/' + $routeParams.quizid
+        url: '/quiz/' + $routeParams.quizid + '/'
     }).then(function successCallback(response){
-            $scope.content = response.data;
+            vm.content = $sce.trustAsHtml(response.data);
             console.log(response.data)
         }, function errorCallback(response){
-            console.error(response.statusCode);
+            console.error(response.statusText);
         });
-
-    $scope.submit = function() {
-        console.log($scope);
-        // $http({
-        //     method: 'POST',
-        //     url: '/quiz/' + scope.content.id
-        //     data: {
-        //
-    }
 });
 
 quizApp.controller('LoginController', function($scope, $http, $sce){
-    $scope.user = {};
-
-    $scope.submit = function() {
-        alert($('#id_username').val());
-    };
+    var vm = this;
 
     $http({
         method: 'GET',
         url: '/login'
 
     }).then(function successCallback(response){
-            $scope.content = $sce.trustAsHtml(response.data);
+            vm.content = $sce.trustAsHtml(response.data);
         }, function errorCallback(response){
             console.error(response.statusText);
         });
@@ -107,12 +106,14 @@ quizApp.controller('LoginController', function($scope, $http, $sce){
 });
 
 quizApp.controller('RegisterController', function ($scope, $http, $sce) {
+    var vm = this;
+
     $http({
         method: 'GET',
         url: '/register'
 
     }).then(function successCallback(response){
-            $scope.content = $sce.trustAsHtml(response.data);
+            vm.content = $sce.trustAsHtml(response.data);
         }, function errorCallback(response){
             console.error(response.statusText);
         });

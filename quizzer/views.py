@@ -6,32 +6,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.views.decorators.csrf import ensure_csrf_cookie
 
 from rest_framework import generics
-from rest_framework.views import APIView
 
 from .models import Quiz, QuizSession
 from .forms import LoginForm
-from .serializers import QuizSerializer, UserSerializer
-
-
-class QuizListView(generics.ListAPIView):
-    queryset = Quiz.published.all()
-    serializer_class = QuizSerializer
-
-
-class QuizView(generics.ListAPIView):
-    serializer_class = QuizSerializer
-
-    def get_queryset(self):
-        quiz_id = self.kwargs['quiz_id']
-        return Quiz.objects.filter(id=quiz_id)[:1]
-
-
-class UserListView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
 
 def quiz_list(request):

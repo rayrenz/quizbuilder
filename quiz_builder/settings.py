@@ -26,7 +26,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'quizzer',
-    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (

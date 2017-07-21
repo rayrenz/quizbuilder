@@ -10,7 +10,7 @@
     <p>Started: {{ start }}</p>
   {% endtimezone %}
   </header>
-  <form method="post">
+  <form method="post" action="{% url 'quizzer:check' quiz.id %}">
     {% csrf_token %}
     <ol>
     {% for question in quiz.question_set.all %}

@@ -1,0 +1,45 @@
+<!doctype html>
+{% load staticfiles %}
+{% load djng_tags %}
+<html lang="en" ng-app="quizApp">
+  <head>
+    <base href="/">
+    <meta charset="utf-8">
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'app.animation.css' %}">
+
+    <script src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+    <script src="{% static 'angularjs/angular.min.js' %}"></script>
+    <script src="{% static 'angularjs/angular-route.min.js' %}"></script>
+    <script src="{% static 'angularjs/angular-animate.min.js' %}"></script>
+    <script src="{% static 'angularjs/angular-cookies.min.js' %}"></script>
+
+    <script src="{% static 'djng/js/django-angular.min.js' %}"></script>
+
+    <script src="{% static 'authentication/authentication.module.js' %}"></script>
+    <script src="{% static 'authentication/authentication.services.js' %}"></script>
+
+    <script src="{% static 'app.module.js' %}"></script>
+    <script src="{% static 'app.config.js' %}"></script>
+
+    <script src="{% static 'controllers/login.controller.js' %}"></script>
+    <script src="{% static 'controllers/signup.controller.js' %}"></script>
+    <script src="{% static 'controllers/navbar.controller.js' %}"></script>
+    <script src="{% static 'controllers/quizlist.controller.js' %}"></script>
+    <script src="/static/controllers/quizform.controller.js?newversion"></script>
+    <script src="{% static 'controllers/results.controller.js' %}"></script>
+
+    <script src="{% static 'app.routes.js' %}"></script>
+
+  </head>
+  <body>
+
+    {% include 'navbar.html' %}
+
+    <div class="">
+      <div ng-view class="page"></div>
+    </div>
+
+  </body>
+</html>

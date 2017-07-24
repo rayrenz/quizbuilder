@@ -1,0 +1,38 @@
+/* The starting CSS styles for the enter animation */
+.page.ng-enter {
+    animation: scaleUp 0.5s both ease-in;
+}
+
+@keyframes scaleUp {
+    from    { opacity: 0.3; -webkit-transform: scale(0.8); }
+}
+
+@keyframes scaleDown {
+    to    { opacity: 0.8; -webkit-transform: scale(0.3); }
+}
+
+/* slide in from the right */
+@keyframes slideInRight {
+    from    { transform:translateX(100%); }
+    to      { transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+    from    { transform:translateX(-100%); }
+    to      { transform: translateX(0); }
+}
+
+/* slide in from the bottom */
+@keyframes slideInUp {
+    from    { transform:translateY(100%); }
+    to      { transform: translateY(0); }
+}
+
+
+@keyframes slideOutLeft {
+    to      { transform: translateX(-100%); }
+}
+
+@keyframes slideOutRight {
+    to      { transform: translateX(100%); }
+}

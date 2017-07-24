@@ -1,0 +1,7 @@
+<ul>
+  {% for session in sessions %}
+    <li><a href="/results/{{ session.id }}">{{ session }}</a></li>
+  {% empty %}
+    <li>You haven't taken any quiz yet.</li>
+  {% endfor %}
+</ul>

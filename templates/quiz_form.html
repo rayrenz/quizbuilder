@@ -1,0 +1,25 @@
+<div class="col-sm-offset-1 col-sm-10">
+<div class="panel panel-primary">
+  <header class="panel-heading">
+    <h1>{{ quiz.title }}</h1>
+  </header>
+  <form ng-init="vm.count=0">
+    {% csrf_token %}
+    <ol>
+    {% for question in quiz.question_set.all %}
+      <li class="list-group" ng-init="vm.count=vm.count+1">
+        {{ question.text }}<br>
+        {% for choice in question.choice_set.all %}
+          <input type="radio" name="{{ question.id }}" ng-model="question{{ question.id }}" id="choice{{ forloop.counter}}"
+                 value="{{ choice.id }}" ng-click="vm.setAnswer({{ question.id }},{{ choice.id }})">
+          <label for="choice{{ forloop.counter }}">{{ choice.text }}</label><br>
+        {% endfor %}
+      </li>
+    {% endfor %}
+      <li style="list-style-type: none;">
+        <input class="btn btn-success" ng-click="vm.submit()" type="submit" ng-disabled="!vm.isfinished()">
+      </li>
+    </ol>
+  </form>
+</div>
+</div>

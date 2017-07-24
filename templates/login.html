@@ -1,0 +1,19 @@
+
+  <div class="col-sm-4 col-sm-offset-4">
+    <form name="login_form" class="form-horizontal">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-group" ng-model="vm.{{ field.name }}field">
+          <div class="col-sm-4">
+            {{ field.label_tag }}
+          </div>
+          <div class="col-sm-8">
+            {{ field }}
+          </div>
+        </div>
+      {% endfor %}
+        <div class="col-sm-offset-4 col-sm-8">
+          <button ng-click="vm.submit()" class="btn btn-primary">Login</button>
+        </div>
+    </form>
+  </div>

@@ -1,0 +1,39 @@
+{% load mytemplates %}
+<div class="col-sm-offset-1 col-sm-7">
+  {% for quiz in quizzes %}
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3>{{ quiz.title }}</h3>
+    </div>
+    <div class="panel-body">
+      Questions: {{ quiz.question_set.count }}&emsp;
+      {% load tz %}
+      {% timezone 'Asia/Taipei' %}
+        Created: {{ quiz.created }}&emsp;
+        {% if quiz.expiration %}
+          Expires: {{ quiz.expiration }}
+        {% endif %}
+      {% endtimezone %}
+      <div style="float: right">
+        <button class="btn btn-default" ng-click="vm.start({{ quiz.id }})">Start Quiz</button>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+    <div class="jumbotron text-center">
+      <h2>Sorry!</h2>
+      <h3>There are no quizzes available.</h3>
+    </div>
+  {% endfor %}
+</div>
+
+<div class="col-sm-3">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>My Recent Quizzes</h4>
+    </div>
+    <div class="panel-body">
+      {% recent_quizzes user.id %}
+    </div>
+  </div>
+</div>
